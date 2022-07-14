@@ -3,6 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { DbController } from './db/db.controller';
+import { User } from './db/entities/user.entity';
+import { RefreshToken } from './db/entities/refreshToken.entity';
+import { Union } from './db/entities/union.entity';
+import { Permission } from './db/entities/permission.entity';
+import { Task } from './db/entities/task.entity';
+import { Language } from './db/entities/language.entity';
 
 @Module({
   imports: [
@@ -14,11 +21,11 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_DATABASE,
-      entities: [],
+      entities: [User, RefreshToken, Union, Permission, Task, Language],
       synchronize: true,
     }),
   ],
-  controllers: [AppController],
+  controllers: [AppController, DbController],
   providers: [AppService],
 })
 export class AppModule {}
