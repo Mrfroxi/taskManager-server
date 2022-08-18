@@ -12,6 +12,9 @@ export class RefreshToken {
   @Column()
   expires_in: string;
 
+  @Column()
+  revoked: boolean;
+
   @ManyToOne(() => User, (user) => user.refreshToken)
   user: User;
 }

@@ -50,7 +50,8 @@ export class User {
 
   @OneToMany(() => Task, (task) => task.user)
   task: Task[];
+
   @ManyToMany(() => Union)
   @JoinTable()
-  unions: Union[];
+  relation: Union[];
 }

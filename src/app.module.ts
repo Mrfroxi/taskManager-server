@@ -10,6 +10,7 @@ import { Union } from './db/entities/union.entity';
 import { Permission } from './db/entities/permission.entity';
 import { Task } from './db/entities/task.entity';
 import { Language } from './db/entities/language.entity';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Language } from './db/entities/language.entity';
       entities: [User, RefreshToken, Union, Permission, Task, Language],
       synchronize: true,
     }),
+    UsersModule,
   ],
   controllers: [AppController, DbController],
   providers: [AppService],
