@@ -8,4 +8,10 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+  async createUser(dto) {
+    const user = await this.userRepository.save(
+      this.userRepository.create(dto),
+    );
+    return user;
+  }
 }
