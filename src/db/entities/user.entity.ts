@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Entity,
   Column,
@@ -15,27 +16,35 @@ import { Union } from './union.entity';
 
 @Entity()
 export class User {
+  @ApiProperty({ example: '1', description: 'unique identifier' })
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({ example: 'David', description: 'user firstName' })
   @Column({ default: '' })
   firstName: string;
 
+  @ApiProperty({ example: 'Prokopeny', description: 'user lastName' })
   @Column({ default: '' })
   lastName: string;
 
+  @ApiProperty({ example: 'Ladony', description: 'user userName' })
   @Column({ default: '' })
   userName: string;
 
+  @ApiProperty({ example: 'vova@mail.ru', description: 'user email' })
   @Column()
   email: string;
 
+  @ApiProperty({ example: '12345', description: 'user password' })
   @Column()
   password: string;
 
+  @ApiProperty({ example: '/img12341242134125', description: 'user avatar' })
   @Column({ default: '' })
   avatar: string;
 
+  @ApiProperty({ example: 'true/false', description: 'user verified' })
   @Column({ default: false })
   verified: boolean;
 

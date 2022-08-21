@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { DbController } from './db/db.controller';
 import { User } from './db/entities/user.entity';
 import { RefreshToken } from './db/entities/refreshToken.entity';
 import { Union } from './db/entities/union.entity';
@@ -27,7 +26,7 @@ import { UsersModule } from './users/users.module';
     }),
     UsersModule,
   ],
-  controllers: [AppController, DbController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
