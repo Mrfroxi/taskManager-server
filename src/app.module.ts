@@ -10,6 +10,7 @@ import { Permission } from './db/entities/permission.entity';
 import { Task } from './db/entities/task.entity';
 import { Language } from './db/entities/language.entity';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module';
       synchronize: true,
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
