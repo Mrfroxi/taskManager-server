@@ -9,12 +9,14 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
+
   async createUser(dto) {
     const user = await this.userRepository.save(
       this.userRepository.create(dto),
     );
     return user;
   }
+
   async findUserById(id): Promise<User> {
     const user = await this.userRepository.findOneBy({
       id,
@@ -24,6 +26,7 @@ export class UsersService {
     }
     return user;
   }
+
   async findUserByEmail(email) {
     const user = await this.userRepository.findOneBy({
       email,

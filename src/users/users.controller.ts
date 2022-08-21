@@ -8,12 +8,14 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(private userService: UsersService) {}
+
   @ApiOperation({ summary: 'user creation' })
   @ApiResponse({ status: 200, type: CreateUserDto })
   @Post()
   create(@Body() userDto) {
     return this.userService.createUser(userDto);
   }
+
   @ApiOperation({ summary: 'user search by id' })
   @ApiResponse({ status: 200, type: User })
   @Get(':id')
