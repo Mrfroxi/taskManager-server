@@ -10,9 +10,9 @@ export class RefreshToken {
   value: string;
 
   @Column()
-  expires_in: string;
+  expires_in: Date;
 
-  @Column()
+  @Column({ default: false })
   revoked: boolean;
 
   @ManyToOne(() => User, (user) => user.refreshToken)

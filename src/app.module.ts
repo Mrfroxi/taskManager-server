@@ -11,6 +11,7 @@ import { Task } from './db/entities/task.entity';
 import { Language } from './db/entities/language.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    RefreshTokenModule,
   ],
   controllers: [AppController],
   providers: [AppService],
