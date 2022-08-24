@@ -41,7 +41,7 @@ export class UsersService {
       email,
     });
 
-    if (!user) null;
+    if (!user) return null;
 
     return user;
   }
