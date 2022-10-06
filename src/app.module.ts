@@ -12,6 +12,7 @@ import { Language } from './db/entities/language.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
     UsersModule,
     AuthModule,
     RefreshTokenModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
