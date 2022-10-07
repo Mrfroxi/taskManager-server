@@ -36,4 +36,9 @@ export class AuthController {
 
     return user;
   }
+
+  @Post('mail')
+  async SendMail(){
+    let mail = this.authenticationService.signUp()
+  }
 }

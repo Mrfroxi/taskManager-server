@@ -3,6 +3,7 @@ import { MailController } from './mail.controller';
 import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 @Module({
   imports: [
     MailerModule.forRootAsync({
@@ -31,5 +32,6 @@ import { join } from 'path';
   ],
   controllers: [MailController],
   providers: [MailService],
+  exports:[MailService],
 })
 export class MailModule {}
