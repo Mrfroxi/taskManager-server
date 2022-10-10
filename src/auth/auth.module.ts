@@ -13,7 +13,6 @@ import { LocalStrategy } from './strategy/local.strategy';
   imports: [
     RefreshTokenModule,
     UsersModule,
-    // PassportModule,
     JwtModule.register({
       secret: process.env.SECRET_KEY_JWT,
       signOptions: { expiresIn: '12h' },

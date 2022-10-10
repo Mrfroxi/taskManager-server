@@ -61,9 +61,23 @@ export class RefreshTokenService {
       expiresIn: `${process.env.EXPIRESIN_REFRESH}`,
     });
 
-    const refreshcookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${process.env.EXPIRESIN_REFRESH}`;
+    const refreshTokenCookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${process.env.EXPIRESIN_REFRESH}`;
 
-    return { refreshcookie, hashString };
+    return { refreshTokenCookie, hashString };
+  }
+
+
+  async getVerifyToken(user){
+    const { id } = user ;
+
+    const payload = {id};
+
+    const token = this.jwtService.sign(payload,{
+      secret: process.env.SECRET_KEY_JWT_REFRESH,
+      expiresIn: `${process.env.EXPIRESIN_REFRESH}`,
+    })
+    
+    return token;
   }
 
   async createRefreshToken(hashString: string, token: string, userId: number) {
