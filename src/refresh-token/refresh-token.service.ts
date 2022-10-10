@@ -44,6 +44,7 @@ export class RefreshTokenService {
 
   async getCookieWithJwtAccessToken(userId: number) {
     const payload = { userId };
+
     const token = this.jwtService.sign(payload, {
       secret: process.env.SECRET_KEY_JWT_ACCESS,
       expiresIn: `${process.env.EXPIRESIN_ACCESS}`,
@@ -72,12 +73,9 @@ export class RefreshTokenService {
 
     const payload = {id};
 
-    const token = this.jwtService.sign(payload,{
-      secret: process.env.SECRET_KEY_JWT_REFRESH,
-      expiresIn: `${process.env.EXPIRESIN_REFRESH}`,
-    })
+    const token = this.jwtService.sign(payload);
     
-    return token;
+    return `Verify=${token}; HttpOnly; Path=/; Max-Age=${process.env.EXPIRESIN_ACCESS}`;
   }
 
   async createRefreshToken(hashString: string, token: string, userId: number) {
@@ -90,5 +88,10 @@ export class RefreshTokenService {
     });
     await this.refreshTokenRepository.save(refreshToken);
     return refreshToken;
+  }
+
+  async decodeVerifyToken(token:string){
+    const decodedToken  = await this.jwtService.decode(token);
+    console.log(decodedToken);
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { MailService } from 'src/mail/mail.service';
@@ -48,7 +48,7 @@ export class AuthController {
   @Post('createUser')
   async create(@Req() request) {
     const { body } = request;
-    console.log(body)
+
     const user = await this.userService.createUser(body);
 
     const {accessTokenCookie,refreshTokenCookie,verifyToken} = await this.authenticationService.getAllRegistrationTokens(user);
@@ -63,8 +63,10 @@ export class AuthController {
     return user;
   }
 
-  @Post('mail')
-  async SendMail(){
-    // let mail = this.authenticationService.signUp()
+  @Get('verify/:token')
+  async verifyUserGmail(@Param('token') token){
+    console.log(token);
+    let serToken  = await this.refreshTokenService.decodeVerifyToken(token);
+    console.log(serToken);
   }
 }
