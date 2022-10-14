@@ -29,7 +29,9 @@ export class RefreshTokenService {
     token: string,
     UserId: number,
   ) {
+
     const tokenExpiresIn = await this.takeExpireInFromString(token);
+    
     await this.refreshTokenRepository
       .createQueryBuilder()
       .update(RefreshToken)
@@ -73,9 +75,12 @@ export class RefreshTokenService {
 
     const payload = {id};
 
-    const token = this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload,{
+      secret: process.env.SECRET_KEY_JWT_ACCESS,
+      expiresIn: `${process.env.EXPIRESIN_REFRESH}`,
+    });
     
-    return `Verify=${token}; HttpOnly; Path=/; Max-Age=${process.env.EXPIRESIN_ACCESS}`;
+    return `${token}` 
   }
 
   async createRefreshToken(hashString: string, token: string, userId: number) {
@@ -86,12 +91,15 @@ export class RefreshTokenService {
       expires_in: tokenExpiresIn,
       user: { id: userId },
     });
+    
     await this.refreshTokenRepository.save(refreshToken);
+
     return refreshToken;
   }
 
   async decodeVerifyToken(token:string){
-    const decodedToken  = await this.jwtService.decode(token);
-    console.log(decodedToken);
+    const user = await this.jwtService.verify(token,{secret:process.env.SECRET_KEY_JWT_ACCESS});
+
+    console.log(user);
   }
 }
