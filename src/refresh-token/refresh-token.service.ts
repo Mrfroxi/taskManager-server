@@ -99,7 +99,6 @@ export class RefreshTokenService {
 
   async decodeVerifyToken(token:string){
     const user = await this.jwtService.verify(token,{secret:process.env.SECRET_KEY_JWT_ACCESS});
-
     console.log(user);
   }
 }
