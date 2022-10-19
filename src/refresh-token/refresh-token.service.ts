@@ -5,6 +5,7 @@ import { RefreshToken } from 'src/db/entities/refreshToken.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { DecodeVerifyToken } from './dto/refresh-token.dto';
 @Injectable()
 export class RefreshTokenService {
   constructor(
@@ -24,14 +25,19 @@ export class RefreshTokenService {
     return endtime;
   }
 
+  public getTokenDate(format: number): Date {
+    const startDate = new Date(0);
+    startDate.setUTCSeconds(format);
+    return startDate;
+  }
+
   async setCurrentRefreshToken(
     hashString: string,
     token: string,
     UserId: number,
   ) {
-
     const tokenExpiresIn = await this.takeExpireInFromString(token);
-    
+
     await this.refreshTokenRepository
       .createQueryBuilder()
       .update(RefreshToken)
@@ -69,18 +75,17 @@ export class RefreshTokenService {
     return { refreshTokenCookie, hashString };
   }
 
+  async getVerifyToken(user) {
+    const { id } = user;
 
-  async getVerifyToken(user){
-    const { id } = user ;
+    const payload = { id };
 
-    const payload = {id};
-
-    const token = this.jwtService.sign(payload,{
-      secret: process.env.SECRET_KEY_JWT_ACCESS,
-      expiresIn: `${process.env.EXPIRESIN_REFRESH}`,
+    const token = this.jwtService.sign(payload, {
+      secret: process.env.SECRET_KEY_JWT_VERIFY,
+      expiresIn: `${process.env.EXPIRESIN_VERIFY}`,
     });
-    
-    return `${token}` 
+
+    return `${token}`;
   }
 
   async createRefreshToken(hashString: string, token: string, userId: number) {
@@ -91,14 +96,31 @@ export class RefreshTokenService {
       expires_in: tokenExpiresIn,
       user: { id: userId },
     });
-    
+
     await this.refreshTokenRepository.save(refreshToken);
 
     return refreshToken;
   }
 
-  async decodeVerifyToken(token:string){
-    const user = await this.jwtService.verify(token,{secret:process.env.SECRET_KEY_JWT_ACCESS});
-    console.log(user);
+  async decodeVerifyToken(token: string) {
+    const user: DecodeVerifyToken = await this.jwtService.verify(token, {
+      secret: process.env.SECRET_KEY_JWT_VERIFY,
+    });
+
+    const expireDate: Date = this.getTokenDate(user.exp);
+
+    const dateNow = new Date();
+
+    const timeDiff = expireDate.getHours() - dateNow.getHours();
+
+    if (!timeDiff) {
+      return null;
+    }
+
+    if (timeDiff > 0 || expireDate.getHours() <= 2) {
+      return user.id;
+    } else {
+      return null;
+    }
   }
 }

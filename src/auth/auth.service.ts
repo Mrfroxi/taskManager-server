@@ -1,5 +1,4 @@
 import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/db/entities/user.entity';
 import { MailService } from 'src/mail/mail.service';
@@ -9,7 +8,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private mailService: MailService,
-    private refreshTokenService:RefreshTokenService
+    private refreshTokenService: RefreshTokenService,
   ) {}
 
   async validateUser(email: string, pass: string) {
@@ -22,15 +21,12 @@ export class AuthService {
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 
-
-
-  async getAllRegistrationTokens(user){
-
+  async getAllRegistrationTokens(user) {
     const accessTokenCookie =
-    await this.refreshTokenService.getCookieWithJwtAccessToken(user.id);
+      await this.refreshTokenService.getCookieWithJwtAccessToken(user.id);
 
     const refreshToken =
-    await this.refreshTokenService.getCookieWithJwtRefreshToken();
+      await this.refreshTokenService.getCookieWithJwtRefreshToken();
 
     const { hashString, refreshTokenCookie } = refreshToken;
 
@@ -42,6 +38,6 @@ export class AuthService {
 
     const verifyToken = await this.refreshTokenService.getVerifyToken(user);
 
-    return {accessTokenCookie,refreshTokenCookie,verifyToken}
+    return { accessTokenCookie, refreshTokenCookie, verifyToken };
   }
 }

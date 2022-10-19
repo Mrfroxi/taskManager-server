@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { MailService } from 'src/mail/mail.service';
@@ -12,8 +21,8 @@ export class AuthController {
   constructor(
     private authenticationService: AuthService,
     private refreshTokenService: RefreshTokenService,
-    private mailService:MailService,
-    private userService:UsersService,
+    private mailService: MailService,
+    private userService: UsersService,
   ) {}
 
   @UseGuards(AuthGuard('local'))
@@ -51,25 +60,31 @@ export class AuthController {
 
     const user = await this.userService.createUser(body);
 
-    const {accessTokenCookie,refreshTokenCookie,verifyToken} = await this.authenticationService.getAllRegistrationTokens(user);
+    const { accessTokenCookie, refreshTokenCookie, verifyToken } =
+      await this.authenticationService.getAllRegistrationTokens(user);
 
     await request.res.setHeader('Set-Cookie', [
       accessTokenCookie,
       refreshTokenCookie,
     ]);
 
-   const sentLetter = await this.mailService.sendUserConfirmation(verifyToken,user);
+    // const sentLetter = await this.mailService.sendUserConfirmation(
+    //   verifyToken,
+    //   user,
+    // );
 
     return user;
   }
 
   @Get('verify/:token')
-  async verifyUserGmail(@Param('token') token){
-    console.log(token);
-    let serToken  = await this.refreshTokenService.decodeVerifyToken(token);
-    console.log(serToken);
-    let Data = new Date(123123)
-    console.log(Data)
+  async verifyUserGmail(@Param('token') token) {
+    const transferredUser = await this.refreshTokenService.decodeVerifyToken(
+      token,
+    );
 
+    if (transferredUser) {
+    } else {
+      throw new HttpException('e-mail timed out', HttpStatus.FORBIDDEN);
+    }
   }
 }
