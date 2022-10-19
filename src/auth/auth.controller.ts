@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Redirect,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -68,23 +69,24 @@ export class AuthController {
       refreshTokenCookie,
     ]);
 
-    // const sentLetter = await this.mailService.sendUserConfirmation(
-    //   verifyToken,
-    //   user,
-    // );
+    await this.mailService.sendUserConfirmation(verifyToken, user);
 
     return user;
   }
 
   @Get('verify/:token')
+  @Redirect('http://localhost:3000/main', 201)
   async verifyUserGmail(@Param('token') token) {
-    const transferredUser = await this.refreshTokenService.decodeVerifyToken(
-      token,
-    );
+    const transferredUserId: number =
+      await this.refreshTokenService.decodeVerifyToken(token);
 
-    if (transferredUser) {
+    if (transferredUserId) {
     } else {
       throw new HttpException('e-mail timed out', HttpStatus.FORBIDDEN);
     }
+
+    const user = this.userService.setUserVerify(transferredUserId);
+
+    return user;
   }
 }

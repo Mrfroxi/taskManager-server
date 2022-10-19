@@ -1,13 +1,11 @@
 import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/db/entities/user.entity';
-import { MailService } from 'src/mail/mail.service';
 import { RefreshTokenService } from 'src/refresh-token/refresh-token.service';
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private mailService: MailService,
     private refreshTokenService: RefreshTokenService,
   ) {}
 

@@ -36,6 +36,22 @@ export class UsersService {
     return user;
   }
 
+  async setUserVerify(id) {
+    const user = await this.findUserById(id);
+
+    if (!user) {
+      throw new HttpException('invalid user', HttpStatus.FORBIDDEN);
+    }
+    await this.userRepository
+      .createQueryBuilder()
+      .update(User)
+      .set({ verified: true })
+      .where('id=:id', { id: user.id })
+      .execute();
+
+    return user;
+  }
+
   async findUserByEmail(email) {
     const user = await this.userRepository.findOneBy({
       email,
