@@ -9,9 +9,6 @@ export class RefreshToken {
   @Column()
   value: string;
 
-  @Column()
-  expires_in: Date;
-
   @Column({ default: false })
   revoked: boolean;
 

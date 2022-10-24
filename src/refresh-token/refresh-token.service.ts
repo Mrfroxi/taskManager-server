@@ -44,15 +44,12 @@ export class RefreshTokenService {
     token: string,
     UserId: number,
   ) {
-    const tokenExpiresIn = await this.takeExpireInFromString(token);
-
     await this.refreshTokenRepository
       .createQueryBuilder()
       .update(RefreshToken)
       .set({
         value: hashString,
         user: { id: UserId },
-        expires_in: tokenExpiresIn,
       })
       .where('id = :id', { id: UserId })
       .execute();
@@ -97,11 +94,8 @@ export class RefreshTokenService {
   }
 
   async createRefreshToken(hashString: string, token: string, userId: number) {
-    const tokenExpiresIn = await this.takeExpireInFromString(token);
-
     const refreshToken = await this.refreshTokenRepository.create({
       value: hashString,
-      expires_in: tokenExpiresIn,
       user: { id: userId },
     });
 
