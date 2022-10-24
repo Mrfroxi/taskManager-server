@@ -14,9 +14,9 @@ export class UsersService {
   async createUser(dto: CreateUserDto) {
     const uniqueUser = await this.findUserByEmail(dto.email);
 
-    if (uniqueUser) {
-      throw new HttpException('this user already exists', HttpStatus.FORBIDDEN);
-    }
+    // if (uniqueUser) {
+    //   throw new HttpException('this user already exists', HttpStatus.FORBIDDEN);
+    // }
 
     const user = await this.userRepository.save(
       this.userRepository.create(dto),
@@ -32,6 +32,23 @@ export class UsersService {
     if (!user) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
+
+    return user;
+  }
+
+  async setUserVerify(id) {
+    const user = await this.findUserById(id);
+
+    if (!user) {
+      throw new HttpException('invalid user', HttpStatus.FORBIDDEN);
+    }
+
+    await this.userRepository
+      .createQueryBuilder()
+      .update(User)
+      .set({ verified: true })
+      .where('id=:id', { id: user.id })
+      .execute();
 
     return user;
   }

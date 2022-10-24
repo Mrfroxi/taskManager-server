@@ -12,6 +12,7 @@ import { Language } from './db/entities/language.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -22,13 +23,14 @@ import { RefreshTokenModule } from './refresh-token/refresh-token.module';
       port: +process.env.DATABASE_PORT,
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_DATABASE,
+      database: process.env.DATABASE_NAME,
       entities: [User, RefreshToken, Union, Permission, Task, Language],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     RefreshTokenModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
