@@ -7,7 +7,6 @@ import {
   Post,
   Redirect,
   Req,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -84,7 +83,7 @@ export class AuthController {
 
     const { id, status } = transferredUser;
 
-    if (!false) {
+    if (!status) {
       const user = await this.userService.findUserById(id);
 
       if (!user) {
@@ -94,6 +93,8 @@ export class AuthController {
       const verifyToken = await this.refreshTokenService.getVerifyToken(user);
 
       await this.mailService.sendUserConfirmation(verifyToken, user);
+
+      return transferredUser;
     }
 
     const user = await this.userService.setUserVerify(id);
