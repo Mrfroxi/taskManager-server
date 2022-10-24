@@ -25,6 +25,14 @@ export class RefreshTokenService {
     return endtime;
   }
 
+  public receivingDateToken(token: number) {
+    const expireDate: Date = this.getTokenDate(token);
+
+    const dateNow: Date = new Date();
+
+    return expireDate.getTime() - dateNow.getTime();
+  }
+
   public getTokenDate(format: number): Date {
     const startDate = new Date(0);
     startDate.setUTCSeconds(format);
@@ -107,17 +115,49 @@ export class RefreshTokenService {
       secret: process.env.SECRET_KEY_JWT_VERIFY,
     });
 
-    const expireDate: Date = this.getTokenDate(user.exp);
+    const timeDiff = this.receivingDateToken(user.exp);
 
-    const dateNow = new Date();
+    if (!timeDiff) {
+      return { id: user.id, status: false };
+    }
 
-    const timeDiff = expireDate.getHours() - dateNow.getHours();
+    if (timeDiff > 0) {
+      return { id: user.id, status: true };
+    } else {
+      return { id: user.id, status: false };
+    }
+  }
+
+  async decodeAccessToken(token: string) {
+    const user = await this.jwtService.verify(token, {
+      secret: process.env.SECRET_KEY_JWT_ACCESS,
+    });
+
+    const timeDiff = this.receivingDateToken(user.exp);
 
     if (!timeDiff) {
       return null;
     }
 
-    if (timeDiff > 0 || expireDate.getHours() <= 2) {
+    if (timeDiff > 0) {
+      return user.id;
+    } else {
+      return null;
+    }
+  }
+
+  async decodeRefreshToken(token: string) {
+    const user = await this.jwtService.verify(token, {
+      secret: process.env.SECRET_KEY_JWT_REFRESH,
+    });
+
+    const timeDiff = this.receivingDateToken(user.exp);
+
+    if (!timeDiff) {
+      return null;
+    }
+
+    if (timeDiff > 0) {
       return user.id;
     } else {
       return null;

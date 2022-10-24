@@ -7,6 +7,7 @@ import {
   Post,
   Redirect,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -16,6 +17,7 @@ import { RefreshTokenService } from 'src/refresh-token/refresh-token.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
+import { TransferredUser } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -75,17 +77,26 @@ export class AuthController {
   }
 
   @Get('verify/:token')
-  @Redirect('http://localhost:3000/main', 201)
-  async verifyUserGmail(@Param('token') token) {
-    const transferredUserId: number =
+  @Redirect('http://localhost:3000/main')
+  async verifyUserGmail(@Param('token') token: string) {
+    const transferredUser: TransferredUser =
       await this.refreshTokenService.decodeVerifyToken(token);
 
-    if (transferredUserId) {
-    } else {
-      throw new HttpException('e-mail timed out', HttpStatus.FORBIDDEN);
+    const { id, status } = transferredUser;
+
+    if (!false) {
+      const user = await this.userService.findUserById(id);
+
+      if (!user) {
+        throw new HttpException('invalid user mail', HttpStatus.FORBIDDEN);
+      }
+
+      const verifyToken = await this.refreshTokenService.getVerifyToken(user);
+
+      await this.mailService.sendUserConfirmation(verifyToken, user);
     }
 
-    const user = this.userService.setUserVerify(transferredUserId);
+    const user = await this.userService.setUserVerify(id);
 
     return user;
   }

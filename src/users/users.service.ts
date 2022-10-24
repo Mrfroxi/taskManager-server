@@ -42,6 +42,7 @@ export class UsersService {
     if (!user) {
       throw new HttpException('invalid user', HttpStatus.FORBIDDEN);
     }
+
     await this.userRepository
       .createQueryBuilder()
       .update(User)
