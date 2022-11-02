@@ -13,7 +13,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { MailModule } from './mail/mail.module';
-
+import fs = require('fs');
 @Module({
   imports: [
     ConfigModule.forRoot({}),
@@ -26,6 +26,9 @@ import { MailModule } from './mail/mail.module';
       database: process.env.DATABASE_NAME,
       entities: [User, RefreshToken, Union, Permission, Task, Language],
       synchronize: true,
+      ssl: {
+        ca: fs.readFileSync('ca-certificate.crt'),
+      },
     }),
     UsersModule,
     AuthModule,
