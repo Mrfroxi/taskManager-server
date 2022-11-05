@@ -7,7 +7,7 @@ export class gitAppController {
 
   @Post()
   takeRequest(@Req() req) {
-    console.log(req.body.payload);
+    console.log(req.body);
   }
 
   //   @Get()
