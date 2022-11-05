@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { MailModule } from './mail/mail.module';
 import fs = require('fs');
+import { gitAppModule } from './git/gitApp.service';
 @Module({
   imports: [
     ConfigModule.forRoot({}),
@@ -34,6 +35,7 @@ import fs = require('fs');
     AuthModule,
     RefreshTokenModule,
     MailModule,
+    gitAppModule,
   ],
   controllers: [AppController],
   providers: [AppService],
