@@ -5,13 +5,13 @@ import { gitAppService } from './gitApp.module';
 export class gitAppController {
   constructor(private gitAppService: gitAppService) {}
 
-  //   @Post()
-  //   takeRequest(@Req() req: Request) {
-  //     console.log(req);
-  //   }
-
-  @Get()
-  takeGet(@Req() req: Request) {
+  @Post()
+  takeRequest(@Req() req: Request) {
     console.log(req);
   }
+
+  //   @Get()
+  //   takeGet(@Req() req: Request) {
+  //     console.log(req);
+  //   }
 }
