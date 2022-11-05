@@ -6,8 +6,8 @@ export class gitAppController {
   constructor(private gitAppService: gitAppService) {}
 
   @Post()
-  takeRequest(@Req() req: Request) {
-    console.log(req);
+  takeRequest(@Req() req) {
+    console.log(req.body.payload);
   }
 
   //   @Get()
