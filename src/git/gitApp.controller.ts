@@ -12,6 +12,6 @@ export class gitAppController {
 
   @Get()
   takeGet(@Req() req: Request) {
-    console.log(req.body);
+    console.log(req);
   }
 }
