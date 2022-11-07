@@ -9,9 +9,4 @@ export class gitAppController {
   takeRequest(@Req() req) {
     console.log(req.body);
   }
-
-  //   @Get()
-  //   takeGet(@Req() req: Request) {
-  //     console.log(req);
-  //   }
 }
