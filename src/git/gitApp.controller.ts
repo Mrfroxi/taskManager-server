@@ -7,6 +7,7 @@ export class gitAppController {
 
   @Post()
   takeRequest(@Req() req) {
-    console.log(req.body);
+    const { body } = req;
+    return this.gitAppService.setPullRequest(body);
   }
 }
