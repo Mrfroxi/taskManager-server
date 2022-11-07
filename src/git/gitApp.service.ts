@@ -14,8 +14,7 @@ export class gitAppService {
   async setPullRequest(payload) {
     //base ,this is the branch where the pull request will go
     //head ,this is the branch  where the pull request will be sent
-    const { title, user, body, created_at, base, head, repository } =
-      payload.pull_request;
+    const { title, user, body, created_at, base, head } = payload.pull_request;
 
     const pullRequest = new PullRequestObj(
       title,
@@ -23,8 +22,8 @@ export class gitAppService {
       user.type,
       body,
       created_at,
-      repository.id,
-      repository.name,
+      payload.repository.id,
+      payload.repository.name,
       base.ref,
       head.ref,
     );
