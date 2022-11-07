@@ -11,6 +11,7 @@ export class gitAppService {
   ) {}
 
   async setPullRequest(body) {
-    console.log(body);
+    console.log(body.pull_request);
+    console.log(body.acton);
   }
 }
