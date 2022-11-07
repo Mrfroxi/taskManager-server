@@ -16,7 +16,7 @@ export class gitAppService {
     //head ,this is the branch  where the pull request will be sent
     const { pull_request, user, body, created_at, base, head, repository } =
       payload;
-    console.log(payload);
+    console.log(user);
     // const pullRequest = new PullRequestObj(
     //   pull_request.title,
     //   user.login,
