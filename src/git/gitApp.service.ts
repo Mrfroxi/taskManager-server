@@ -1,9 +1,4 @@
-import { Module } from '@nestjs/common';
-import { gitAppController } from './gitApp.controller';
-import { gitAppService } from './gitApp.module';
+import { Injectable } from '@nestjs/common';
 
-@Module({
-  controllers: [gitAppController],
-  providers: [gitAppService],
-})
-export class gitAppModule {}
+@Injectable()
+export class gitAppService {}

@@ -14,7 +14,9 @@ import { AuthModule } from './auth/auth.module';
 import { RefreshTokenModule } from './refresh-token/refresh-token.module';
 import { MailModule } from './mail/mail.module';
 import fs = require('fs');
-import { gitAppModule } from './git/gitApp.service';
+
+import { PullRequest } from './db/entities/pullRequest.entity';
+import { gitAppModule } from './git/gitApp.module';
 @Module({
   imports: [
     ConfigModule.forRoot({}),
@@ -25,7 +27,15 @@ import { gitAppModule } from './git/gitApp.service';
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User, RefreshToken, Union, Permission, Task, Language],
+      entities: [
+        User,
+        RefreshToken,
+        Union,
+        Permission,
+        Task,
+        Language,
+        PullRequest,
+      ],
       synchronize: true,
       ssl: {
         ca: fs.readFileSync('ca-certificate.crt'),

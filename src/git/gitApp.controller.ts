@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Req } from '@nestjs/common';
-import { gitAppService } from './gitApp.module';
+import { gitAppService } from './gitApp.service';
 
 @Controller('github')
 export class gitAppController {
