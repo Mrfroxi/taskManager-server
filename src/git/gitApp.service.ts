@@ -14,21 +14,20 @@ export class gitAppService {
   async setPullRequest(payload) {
     //base ,this is the branch where the pull request will go
     //head ,this is the branch  where the pull request will be sent
-    const { pull_request, user, body, created_at, base, head, repository } =
-      payload;
-    console.log(pull_request.user);
-    console.log(pull_request.created_at);
-    // const pullRequest = new PullRequestObj(
-    //   pull_request.title,
-    //   user.login,
-    //   user.type,
-    //   body,
-    //   created_at,
-    //   repository.id,
-    //   repository.name,
-    //   base.ref,
-    //   head.ref,
-    // );
-    // console.log(pull_Request);
+    const { title, user, body, created_at, base, head, repository } =
+      payload.pull_request;
+
+    const pullRequest = new PullRequestObj(
+      title,
+      user.login,
+      user.type,
+      body,
+      created_at,
+      repository.id,
+      repository.name,
+      base.ref,
+      head.ref,
+    );
+    console.log(pullRequest);
   }
 }
