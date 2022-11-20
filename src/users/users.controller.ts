@@ -14,8 +14,9 @@ export class UsersController {
   async findUserById(@Param('id') id: string) {
     return this.userService.findUserById(id);
   }
+
   @Get()
   async findUsers() {
-    return this.userService.findUsers;
+    return this.userService.findUsers();
   }
 }
