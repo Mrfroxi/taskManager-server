@@ -58,6 +58,7 @@ export class AuthController {
   @ApiResponse({ status: 200, type: CreateUserDto })
   @Post('createUser')
   async create(@Req() request) {
+    console.log(request);
     const { body } = request;
 
     const user = await this.userService.createUser(body);
