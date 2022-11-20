@@ -80,7 +80,7 @@ export class AuthController {
   async proFunction(@Req() request) {
     console.log('auth');
   }
-  
+
   @Get('verify/:token')
   @Redirect('http://localhost:3000/main')
   async verifyUserGmail(@Param('token') token: string) {

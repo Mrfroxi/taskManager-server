@@ -62,4 +62,10 @@ export class UsersService {
 
     return user;
   }
+
+  async findUsers() {
+    const users = await this.userRepository.find();
+
+    return users;
+  }
 }
