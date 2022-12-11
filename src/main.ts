@@ -1,3 +1,4 @@
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -11,7 +12,7 @@ async function bootstrap() {
       if (!origin || whitelist.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        throw new HttpException('Not allowed by CORS', HttpStatus.FORBIDDEN);
       }
     },
   });
