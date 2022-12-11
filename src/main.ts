@@ -4,9 +4,10 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const whitelist = ['example.com', 'api.example.com'];
+  const whitelist = ['http://localhost:3000'];
   app.enableCors({
     origin: function (origin, callback) {
+      console.log(origin);
       if (!origin || whitelist.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
