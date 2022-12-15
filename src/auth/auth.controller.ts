@@ -31,8 +31,7 @@ export class AuthController {
   @Post('log-in')
   async logIn(@Req() request) {
     const { user } = request;
-    console.log('---------------------');
-    console.log(user);
+
     const accessTokenCookie =
       await this.refreshTokenService.getCookieWithJwtAccessToken(user.id);
 
@@ -74,11 +73,6 @@ export class AuthController {
     await this.mailService.sendUserConfirmation(verifyToken, user);
 
     return user;
-  }
-
-  @Get()
-  async proFunction(@Req() request) {
-    console.log('auth');
   }
 
   @Get('verify/:token')

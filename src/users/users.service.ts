@@ -14,14 +14,14 @@ export class UsersService {
   async createUser(dto: CreateUserDto) {
     const uniqueUser = await this.findUserByEmail(dto.email);
 
-    // if (uniqueUser) {
-    //   throw new HttpException('this user already exists', HttpStatus.FORBIDDEN);
-    // }
-    console.log(dto);
+    if (uniqueUser) {
+      throw new HttpException('this user already exists', HttpStatus.FORBIDDEN);
+    }
+
     const user = await this.userRepository.save(
       this.userRepository.create(dto),
     );
-    console.log(user);
+
     return user;
   }
 
