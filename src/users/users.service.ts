@@ -17,10 +17,11 @@ export class UsersService {
     // if (uniqueUser) {
     //   throw new HttpException('this user already exists', HttpStatus.FORBIDDEN);
     // }
-
+    console.log(dto);
     const user = await this.userRepository.save(
       this.userRepository.create(dto),
     );
+    console.log(user);
     return user;
   }
 
@@ -65,7 +66,6 @@ export class UsersService {
 
   async findUsers() {
     const users = await this.userRepository.find();
-    console.log(users);
     return users;
   }
 }

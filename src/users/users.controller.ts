@@ -17,7 +17,6 @@ export class UsersController {
 
   @Get()
   async findUsers() {
-    console.log(1);
     return this.userService.findUsers();
   }
 }
