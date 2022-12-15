@@ -31,7 +31,8 @@ export class AuthController {
   @Post('log-in')
   async logIn(@Req() request) {
     const { user } = request;
-
+    console.log('---------------------');
+    console.log(user);
     const accessTokenCookie =
       await this.refreshTokenService.getCookieWithJwtAccessToken(user.id);
 
@@ -58,7 +59,6 @@ export class AuthController {
   @ApiResponse({ status: 200, type: CreateUserDto })
   @Post('createUser')
   async create(@Req() request) {
-    console.log(request);
     const { body } = request;
 
     const user = await this.userService.createUser(body);

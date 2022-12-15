@@ -11,6 +11,7 @@ export class AuthService {
 
   async validateUser(email: string, pass: string) {
     const user: User = await this.usersService.findUserByEmail(email);
+
     if (user && user.password === pass) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userInfo } = user;
