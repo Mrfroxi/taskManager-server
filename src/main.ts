@@ -6,15 +6,15 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors({
-    origin: function (origin, callback) {
-      if (!origin || process.env.WHITEHOST === origin) {
-        callback(null, true);
-      } else {
-        throw new HttpException('Not allowed by CORS', HttpStatus.FORBIDDEN);
-      }
-    },
-  });
+  // app.enableCors({
+  //   origin: function (origin, callback) {
+  //     if (!origin || process.env.WHITEHOST === origin) {
+  //       callback(null, true);
+  //     } else {
+  //       throw new HttpException('Not allowed by CORS', HttpStatus.FORBIDDEN);
+  //     }
+  //   },
+  // });
 
   const config = new DocumentBuilder()
     .setTitle('task-project')
