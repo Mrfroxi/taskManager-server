@@ -6,6 +6,7 @@ export class PullRequest {
   id: number;
 
   @Column()
+
   repositoryId: number;
 
   @Column()
