@@ -59,7 +59,7 @@ export class AuthController {
   @Post('createUser')
   async create(@Req() request) {
     const { body } = request;
-
+    console.log(body);
     const user = await this.userService.createUser(body);
 
     const { accessTokenCookie, refreshTokenCookie, verifyToken } =

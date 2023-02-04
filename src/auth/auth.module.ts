@@ -17,7 +17,7 @@ import { LocalStrategy } from './strategy/local.strategy';
       secret: process.env.SECRET_KEY_JWT,
       signOptions: { expiresIn: '12h' },
     }),
-    MailModule
+    MailModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, LocalStrategy],

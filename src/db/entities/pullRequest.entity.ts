@@ -6,6 +6,13 @@ export class PullRequest {
   id: number;
 
   @Column()
+
+  repositoryId: number;
+
+  @Column()
+  repositoryName: string;
+
+  @Column()
   title: string;
 
   @Column()
@@ -24,5 +31,5 @@ export class PullRequest {
   refTo: string;
 
   @Column()
-  reWhere: string;
+  refWhere: string;
 }
